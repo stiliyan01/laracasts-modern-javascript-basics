@@ -1,39 +1,41 @@
-class Item {
-  constructor(name, category) {
-    this.name = name;
-    this.category = category;
-  }
+"use strict";
 
-  static maxItems = 10;
+let myPromise = new Promise((resolve, reject) => {
+  // call an api
+  let user = {
+    name: "Andrew",
+    email: "andrew@example.com",
+  };
 
-  static getHelperText() {
-    return "Add some items to your grocery list";
-  }
+  setTimeout(() => {
+    // resolve(user);
+    reject("Sorry, could not retrieve the user.");
+  }, 2000);
+});
 
-  getDetails() {
-    return `${this.name} - ${this.category}`;
-  }
-}
+const getAdditionalUserData = (user) => {
+  document.getElementById("output").innerHTML = `${user.name} (${user.email})`;
 
-class PurchasedItem extends Item {
-  constructor(name, category, price) {
-    super(name, category);
-    this.price = price;
-  }
+  return new Promise((resolve, reject) => {
+    // calling another api to get more user data
+    user.favoriteColor = "Blue";
+    user.currentDrink = "La Croix";
 
-  getDetailsWithPrice() {
-    return `${this.name} - ${this.category} - $${this.price}`;
-  }
+    setTimeout(() => {
+      resolve(user);
+    }, 2000);
+  });
+};
 
-  static getNumberOfItems() {
-    return `3 / ${super.maxItems}`;
-  }
-}
+myPromise
+  .then(getAdditionalUserData)
+  .then((user) => {
+    document.getElementById(
+      "output"
+    ).innerHTML = `${user.name} (${user.email}) - ${user.currentDrink}`;
+  })
+  .catch((error) => {
+    document.getElementById("output").innerHTML = error;
+  });
 
-// let item = new Item('Coffee', 'Food');
-// item.category = 'Drinks';
-
-// let purchasedItem = new PurchasedItem('Sugar', 'Food', '2.49');
-
-// document.getElementById('output').innerHTML = item.getDetails();
-document.getElementById("output").innerHTML = PurchasedItem.getNumberOfItems();
+document.getElementById("output").innerHTML = "Look ma, no blocking!";
