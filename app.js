@@ -1,43 +1,39 @@
-"use strict";
+class Item {
+  constructor(name, category) {
+    this.name = name;
+    this.category = category;
+  }
 
-// function init(name, isTrue) {
-//     document.getElementById('output').innerHTML = `${username.name} (${username.email})`;
-// }
+  static maxItems = 10;
 
-// function nameString() {
-//     return `${username.name} (${username.email})`;
-// }
+  static getHelperText() {
+    return "Add some items to your grocery list";
+  }
 
-// const nameString = name => `${name} (${username.email})`;
+  getDetails() {
+    return `${this.name} - ${this.category}`;
+  }
+}
 
-// document.getElementById('output').innerHTML = nameString('Andrew');
+class PurchasedItem extends Item {
+  constructor(name, category, price) {
+    super(name, category);
+    this.price = price;
+  }
 
-let users = [
-  {
-    name: "Andrew",
-    email: "andrew@example.com",
-  },
-  {
-    name: "Ashley",
-    email: "ashley@example.com",
-  },
-];
+  getDetailsWithPrice() {
+    return `${this.name} - ${this.category} - $${this.price}`;
+  }
 
-let names = [];
+  static getNumberOfItems() {
+    return `3 / ${super.maxItems}`;
+  }
+}
 
-// users.forEach(function(user) {
-//     // do something with that user object
-//     names.push(user.name);
-// });
+// let item = new Item('Coffee', 'Food');
+// item.category = 'Drinks';
 
-users.forEach((user) => names.push(user.name));
+// let purchasedItem = new PurchasedItem('Sugar', 'Food', '2.49');
 
-document.getElementById("output").innerHTML = names.join(", ");
-
-document.getElementById("btn").addEventListener("click", (e) => {
-  const getDetails = () => {
-    return `The button id is ${e.currentTarget.getAttribute("id")}`;
-  };
-
-  document.getElementById("output").innerHTML = getDetails();
-});
+// document.getElementById('output').innerHTML = item.getDetails();
+document.getElementById("output").innerHTML = PurchasedItem.getNumberOfItems();
